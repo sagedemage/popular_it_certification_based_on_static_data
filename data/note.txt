@@ -1,0 +1,7 @@
+For RHCSA:
+Searched the term "Red Hat Certified System Administrator" for the following companies:
+- Boeing
+
+For CompTIA Security+:
+Searched for the term "CompTIA Security Plus" for the following companies:
+- Northrop Grumman
