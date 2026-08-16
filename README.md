@@ -11,3 +11,8 @@ Run the program
 ```
 poetry run python main.py
 ```
+
+Workaround to resolve dependecies quicker on FreeBSD
+```
+python -m venv venv
+```
