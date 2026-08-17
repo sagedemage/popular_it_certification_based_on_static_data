@@ -32,5 +32,5 @@ sudo pkg install py312-flask
 
 Run the program on FreeBSD
 ```
-flask --app main run
+flask --app main run --host=0.0.0.0
 ```
