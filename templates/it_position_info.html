@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title%} IT Position Information {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <p><b>IT Position Information</b>:</p>
+  <table>
+    <tr>
+      <th>{{it_position_info_table.column_names[0]}}</th>
+      <th>{{it_position_info_table.column_names[1]}}</th>
+      <th>{{it_position_info_table.column_names[2]}}</th>
+    </tr>
+    {% for item in it_position_info_table.rows %}
+    <tr>
+      <td>{{item[0]}}</td>
+      <td>{{item[1]}}</td>
+      <td>{{item[2]}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
