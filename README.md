@@ -34,3 +34,13 @@ Run the program on FreeBSD
 ```
 flask --app main run --host=0.0.0.0
 ```
+
+## Resources
+- [Security Certification Roadmap - Paul Jerimy](https://pauljerimy.com/security-certification-roadmap/)
+- [CompTIA Network+ - CompTIA, Inc.](https://www.comptia.org/en-us/certifications/network/)
+- [CompTIA Linux+ - CompTIA, Inc.](https://www.comptia.org/en-us/certifications/linux/)
+- [CompTIA Security+ - CompTIA, Inc.](https://www.comptia.org/en-us/certifications/security/)
+- [CCNA - Cisco Systems, Inc.](https://www.cisco.com/site/us/en/learn/training-certifications/certifications/enterprise/ccna/index.html)
+- [RHCSA - Red Hat](https://www.redhat.com/en/services/certification/rhcsa)
+- [What Is the RHCSA (Red Hat Certified System Administrator) Certification? - Coursera Inc.](https://www.coursera.org/articles/rhcsa)
+- [RHCSA Exam Details - KodeCloud](https://notes.kodekloud.com/docs/Red-Hat-Certified-System-AdministratorRHCSA/Conclusion/Exam-Details/page)
