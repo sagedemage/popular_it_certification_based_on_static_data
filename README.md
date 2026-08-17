@@ -34,5 +34,3 @@ Run the program on FreeBSD
 ```
 flask --app main run
 ```
-
-poetry env activate 
