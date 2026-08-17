@@ -10,11 +10,13 @@
     <tr>
       <th>{{popular_certs_table.column_names[0]}}</th>
       <th>{{popular_certs_table.column_names[1]}}</th>
+      <th>{{popular_certs_table.column_names[2]}}</th>
     </tr>
     {% for item in popular_certs_table.rows %}
     <tr>
       <td>{{item[0]}}</td>
       <td>{{item[1]}}</td>
+      <td>{{item[2]}}</td>
     </tr>
     {% endfor %}
   </table>
@@ -27,6 +29,7 @@
       <th>{{it_certs_info_table.column_names[2]}}</th>
       <th>{{it_certs_info_table.column_names[3]}}</th>
       <th>{{it_certs_info_table.column_names[4]}}</th>
+      <th>{{it_certs_info_table.column_names[5]}}</th>
     </tr>
     {% for item in it_certs_info_table.rows %}
     <tr>
@@ -35,6 +38,7 @@
       <td>{{item[2]}}</td>
       <td>{{item[3]}}</td>
       <td>{{item[4]}}</td>
+      <td>{{item[5]}}</td>
     </tr>
     {% endfor %}
   </table>

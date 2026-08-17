@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title%} Total Points of IT Certifications {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <p><b>Total Points of IT Certifications</b>:</p>
+  <table>
+    <tr>
+      <th>{{total_points_of_it_certs_table.column_names[0]}}</th>
+      <th>{{total_points_of_it_certs_table.column_names[1]}}</th>
+    </tr>
+    {% for item in total_points_of_it_certs_table.rows %}
+    <tr>
+      <td>{{item[0]}}</td>
+      <td>{{item[1]}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
+
+
