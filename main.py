@@ -3,6 +3,7 @@ import pandas as pd
 from flask import Flask, render_template
 from typing import List
 from dataclasses import dataclass
+import numpy as np
 
 app = Flask(__name__)
 
@@ -99,22 +100,41 @@ def get_averages_of_it_certs() -> Table:
 def get_it_certs_information() -> Table:
     """Implementation to get the IT certification information"""
     df_it_certs_info = pd.read_csv("data/it_certs_info.csv")
-    column_names = ["Certifications", "Difficulty Level", "Exam Duration (min)", "Price", "Position", "Points"]
+    column_names = ["Certifications", "Difficulty Level", "Exam Duration (min)", "Price (USD)", "Position", "Points"]
     diff_levels = df_it_certs_info["Difficulty Level"]
+    prices = df_it_certs_info["Price (USD)"]
 
     points = []
-    for diff_level in diff_levels:
+    for i in range(len(diff_levels)):
+        diff_level = diff_levels[i]
+        price = prices[i]
+        point = 0
         if diff_level == "Level 1 - Novice":
-            point = -2
-            points.append(point)
+            point = point-2
         elif diff_level == "Level 2 - Advanced Beginner":
-            point = 2
-            points.append(point)
+            point = point+2
         elif diff_level == "Level 3 - Intermediate":
-            point = 4
-            points.append(point)
+            point = point+4
+
+        if price >= 300 and price < 350:
+            point = point+5
+        elif price >= 350 and price < 400:
+            point = point+4
+        elif price >= 400 and price < 450:
+            point = point+3
+        elif price >= 450 and price < 500:
+            point = point+2
+        elif price >= 500 and price < 550:
+            point = point+1
+
+        points.append(point)
 
     df_it_certs_info.insert(5, "Points", points)
+
+    df_it_certs_info = df_it_certs_info.sort_values(
+        by=["Points"],
+        ascending=False
+    )
 
     it_certs_info = df_it_certs_info.to_numpy()
 
