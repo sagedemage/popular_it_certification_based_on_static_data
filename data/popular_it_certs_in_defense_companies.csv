@@ -1,13 +1,13 @@
-Rank,Companies,Revenue (Billion USD),CompTIA Network+,RHCSA,CCNA,CompTIA Security+,CompTIA Linux+
-1,Boeing,$92.18,0,246,1,489,0
-2,RTX,$90.37,67,3,22,126,66
-3,Lockheed Martin,$75.10,8,7,10,10,5
-4,General Dynamics,$53.80,110,3,85,242,0
-5,Northrop Grumman,$42.36,0,9,55,317,0
-6,BAE Systems,$38.16,36,2,21,71,34
-7,Honeywell,$36.76,1,0,2,1,0
-8,L3Harris Technologies,$22.47,61,5,26,303,0
-9,Leidos,$17.32,77,16,128,130,32
-10,Amentum,$14.20,33,2,19,77,1
-11,Booz Allen Hamilton,$11.21,37,6,103,66,16
-12,CACI International Inc,$9.16,0,10,56,121,0
+Rank,Companies,Revenue (Billion USD),CompTIA Network+,RHCSA,CCNA,CompTIA Security+,CompTIA Linux+,CompTIA A+
+1,Boeing,$92.18,0,246,1,489,0,0
+2,RTX,$90.37,67,3,22,126,66,0
+3,Lockheed Martin,$75.10,8,7,10,10,5,9
+4,General Dynamics,$53.80,110,3,85,242,0,148
+5,Northrop Grumman,$42.36,0,9,55,317,0,116
+6,BAE Systems,$38.16,36,2,21,71,34,34
+7,L3Harris Technologies,$22.47,61,5,26,303,0,260
+8,Leidos,$17.32,77,16,128,130,32,131
+9,Amentum,$14.20,33,2,19,77,1,30
+10,Booz Allen Hamilton,$11.21,37,6,103,66,16,0
+11,CACI International Inc,$9.16,0,10,56,121,0,124
+12,Parsons Corporation,$6.30,10,0,16,13,6,0

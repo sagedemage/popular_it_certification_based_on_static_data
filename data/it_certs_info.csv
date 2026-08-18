@@ -1,6 +1,7 @@
-Certification,Difficulty Level,Exam Duration (min),Price,Position
-CompTIA Network+,Beginner,90,$399.00,Network Administrator
-CompTIA Linux+,Beginner,90,$399.00,System Administrator
-CompTIA Security+,Beginner,90,$439.00,Cybersecurity Engineer
-CCNA,Intermediate,120,$300.00,Network Engineer
-RHCSA,Intermediate,180,$500.00,System Administrator
+Certifications,Difficulty Level,Exam Duration (min),Price,Position
+CompTIA A+,Level 1 - Novice,180,$548.00,Help Desk Technician
+CompTIA Network+,Level 2 - Advanced Beginner,90,$399.00,Network Administrator
+CompTIA Linux+,Level 2 - Advanced Beginner,90,$399.00,System Administrator
+CompTIA Security+,Level 2 - Advanced Beginner,90,$439.00,Cybersecurity Engineer
+CCNA,Level 3 - Intermediate,120,$300.00,Network Engineer
+RHCSA,Level 3 - Intermediate,180,$500.00,System Administrator
