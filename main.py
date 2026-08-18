@@ -1,7 +1,7 @@
-# Web Scrapper using Selenium
+# Main Flask Web Application
 import pandas as pd
 from flask import Flask, render_template
-from typing import List, Dict, Tuple
+from typing import List
 from dataclasses import dataclass
 
 app = Flask(__name__)
@@ -13,7 +13,7 @@ class Table:
 
 @app.route("/")
 def home_page():
-    popular_certs_table = get_sorted_averages_of_popular_it_certs()
+    popular_certs_table = get_averages_of_it_certs()
     it_certs_info_table = get_it_certs_information()
     it_position_info_table = get_it_position_information()
 
@@ -45,13 +45,16 @@ def it_position_page():
         )
     return template
 
-def get_sorted_averages_of_popular_it_certs() -> Table:
+def get_averages_of_it_certs() -> Table:
     """Implementation to get the popular IT certifications"""
-    # This implementation sorts the mean of the number of jobs 
-    # of the IT certifications from greatest to least
     df = pd.read_csv("data/popular_it_certs_in_defense_companies.csv", index_col=False)
 
-    sorted_avgs = []
+    average_of_it_certs_data = {
+        "Certifications": [],
+        "Average Number of Jobs": [],
+    }
+
+    certs = ["RHCSA", "CCNA", "CompTIA Network+", "CompTIA Security+", "CompTIA Linux+", "CompTIA A+"]
 
     means = {
         "RHCSA": int(df["RHCSA"].mean().__round__(-1)),
@@ -59,88 +62,63 @@ def get_sorted_averages_of_popular_it_certs() -> Table:
         "CompTIA Network+": int(df["CompTIA Network+"].mean().__round__(-1)),
         "CompTIA Security+": int(df["CompTIA Security+"].mean().__round__(-1)),
         "CompTIA Linux+": int(df["CompTIA Linux+"].mean().__round__(-1)),
+        "CompTIA A+": int(df["CompTIA A+"].mean().__round__(-1)),
     }
 
-    sorted_avgs.append(means["RHCSA"])
-    sorted_avgs.append(means["CCNA"])
-    sorted_avgs.append(means["CompTIA Network+"])
-    sorted_avgs.append(means["CompTIA Security+"])
-    sorted_avgs.append(means["CompTIA Linux+"])
+    for cert in certs:
+        average_of_it_certs_data["Certifications"].append(cert)
+        avg = means[cert]
+        average_of_it_certs_data["Average Number of Jobs"].append(avg)
 
-    sorted_avgs.sort()
-    sorted_avgs.reverse()
+    column_names = ["Certifications", "Average Number of Jobs", "Points"]
 
-    column_names = ["Certification", "Average Number of Jobs", "Points"]
-
-    in_popular_cert = {
-        "RHCSA": False,
-        "CCNA": False,
-        "CompTIA Network+": False,
-        "CompTIA Security+": False,
-        "CompTIA Linux+": False,
-    }
-
-    popular_certs: List[List[str]] = []
-    point = len(sorted_avgs)
-    no_previous_value = True
-    previous_point = 0
-    previous_value = 0
-    for i in range(len(sorted_avgs)):
-        sort_avg = sorted_avgs[i]
-        for key, val in means.items():
-            if means[key] == sort_avg and in_popular_cert[key] == False:
-                if no_previous_value == True:
-                    row = [key, str(val), point-1*i]
-                    popular_certs.append(row)
-                    in_popular_cert[key] = True
-                    previous_value = val
-                    previous_point = point-1*i
-                    no_previous_value = False
-                    break
-                if val < previous_value:
-                    row = [key, str(val), previous_point-1]
-                    popular_certs.append(row)
-                    in_popular_cert[key] = True
-                    previous_value = val
-                    previous_point = previous_point-1
-                    break
-                if val == previous_value:
-                    row = [key, str(val), previous_point]
-                    popular_certs.append(row)
-                    in_popular_cert[key] = True
-                    previous_value = val
-                    break
-
-    save_data_to_csv_file(column_names, popular_certs, "gen_data/averages_of_it_certs.csv")
-    
-    popular_certs_table = Table(
-        column_names=column_names,
-        rows=popular_certs
+    df_average_of_it_certs_data = pd.DataFrame(average_of_it_certs_data)
+    df_average_of_it_certs_data = df_average_of_it_certs_data.sort_values(
+        by=["Average Number of Jobs"],
+        ascending=False
     )
-    return popular_certs_table
+
+    points = []
+    i = len(df_average_of_it_certs_data["Certifications"])
+    for _ in range(len(df_average_of_it_certs_data["Certifications"])):
+        points.append(i)
+        i = i - 1
+    df_average_of_it_certs_data.insert(2, "Points", points)
+
+    average_of_it_certs_data = df_average_of_it_certs_data.to_numpy()
+
+    df_average_of_it_certs_data.to_csv("gen_data/averages_of_it_certs.csv", index=False)
+    
+    average_of_it_certs_data_table = Table(
+        column_names=column_names,
+        rows=average_of_it_certs_data
+    )
+    return average_of_it_certs_data_table
 
 
 def get_it_certs_information() -> Table:
     """Implementation to get the IT certification information"""
-    df = pd.read_csv("data/it_certs_info.csv")
-    column_names = ["Certification", "Difficulty Level", "Exam Duration (min)", "Price", "Position", "Points"]
-    cert = df["Certification"]
-    diff_level = df["Difficulty Level"]
-    exam_duration = df["Exam Duration (min)"]
-    price = df["Price"]
-    position = df["Position"]
+    df_it_certs_info = pd.read_csv("data/it_certs_info.csv")
+    column_names = ["Certifications", "Difficulty Level", "Exam Duration (min)", "Price", "Position", "Points"]
+    diff_levels = df_it_certs_info["Difficulty Level"]
 
-    it_certs_info: List[List[str]] = []
-    for i in range(len(cert)):
-        point = None
-        if diff_level[i] == "Beginner":
-            point = 1
-        elif diff_level[i] == "Intermediate":
+    points = []
+    for diff_level in diff_levels:
+        if diff_level == "Level 1 - Novice":
+            point = -2
+            points.append(point)
+        elif diff_level == "Level 2 - Advanced Beginner":
             point = 2
-        row = [cert[i], diff_level[i], exam_duration[i], price[i], position[i], point]
-        it_certs_info.append(row)
+            points.append(point)
+        elif diff_level == "Level 3 - Intermediate":
+            point = 4
+            points.append(point)
 
-    save_data_to_csv_file(column_names, it_certs_info, "gen_data/it_certs_info.csv")
+    df_it_certs_info.insert(5, "Points", points)
+
+    it_certs_info = df_it_certs_info.to_numpy()
+
+    df_it_certs_info.to_csv("gen_data/it_certs_info.csv", index=False)
 
     it_certs_info_table = Table(
         column_names=column_names,
@@ -152,8 +130,8 @@ def get_it_certs_information() -> Table:
 def get_it_position_information() -> Table:
     """Implementation to get the IT certification information"""
     df = pd.read_csv("data/it_position_info.csv")
-    column_names = ["Position", "Position Level", "Average Annual Salary"]
-    position = df["Position"]
+    column_names = ["Positions", "Position Level", "Average Annual Salary"]
+    position = df["Positions"]
     position_level = df["Position Level"]
     avg_annual_salary = df["Average Annual Salary"]
 
@@ -185,46 +163,45 @@ def get_total_points_of_it_certs() -> Table:
     avg_of_it_certs_df = pd.read_csv("gen_data/averages_of_it_certs.csv")
     it_certs_info_df = pd.read_csv("gen_data/it_certs_info.csv")
 
+    total_points_of_it_certs_data = {
+        "Certifications": [],
+        "Total Points": []
+    }
+
     avg_of_it_certs = AvgITCerts(None, None, None)
-    avg_of_it_certs.certs = avg_of_it_certs_df["Certification"]
+    avg_of_it_certs.certs = avg_of_it_certs_df["Certifications"]
     avg_of_it_certs.points = avg_of_it_certs_df["Points"]
 
     it_certs_info = ITCertsInfo(None, None, None)
-    it_certs_info.certs = it_certs_info_df["Certification"]
+    it_certs_info.certs = it_certs_info_df["Certifications"]
     it_certs_info.points = it_certs_info_df["Points"]
 
-    total_points_of_it_certs: List[List[str]] = []
-    column_names = ["Certifications", "Total Points"]
     for i in range(len(avg_of_it_certs.certs)):
         avg_of_it_certs.cert = avg_of_it_certs.certs[i]
         for j in range(len(it_certs_info.certs)):
             it_certs_info.cert = it_certs_info.certs[j]
             if avg_of_it_certs.cert == it_certs_info.cert:
                 sum = int(avg_of_it_certs.points[i]) + int(it_certs_info.points[j])
-                total_points_of_it_certs.append([avg_of_it_certs.cert, sum])
+                total_points_of_it_certs_data["Certifications"].append(avg_of_it_certs.cert)
+                total_points_of_it_certs_data["Total Points"].append(sum)
                 break
 
-    save_data_to_csv_file(column_names, total_points_of_it_certs, "gen_data/total_points_of_it_certs.csv")
+    df_total_points_of_it_certs_data = pd.DataFrame(total_points_of_it_certs_data)
+    df_total_points_of_it_certs_data = df_total_points_of_it_certs_data.sort_values(
+        by=["Total Points"],
+        ascending=False
+    )
+
+    column_names = ["Certifications", "Total Points"]
+    total_points_of_it_certs = df_total_points_of_it_certs_data.to_numpy()
+
+    df_total_points_of_it_certs_data.to_csv("gen_data/total_points_of_it_certs.csv", index=False)
 
     total_points_of_it_certs_table = Table(
         column_names=column_names,
         rows=total_points_of_it_certs
     )
     return total_points_of_it_certs_table
-
-def save_data_to_csv_file(column_names: List[str], data: List[List[str]], file_path: str):
-    """Save the data containing the list of rows to a CSV file"""
-    csv_data = {}
-    for column in column_names:
-        csv_data[column] = []
-
-    for item in data:
-        for i in range(len(column_names)):
-            column = column_names[i]
-            csv_data[column].append(item[i])
-
-    df = pd.DataFrame.from_dict(csv_data)
-    df.to_csv(file_path, index=False)
 
 def main():
     print("\nIT Position Information:")
