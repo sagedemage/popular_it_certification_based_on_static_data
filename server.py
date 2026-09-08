@@ -1,4 +1,12 @@
-# HTTP Server serving HTML and JSON files
+""" HTTP Server serving HTML and JSON files """
+#####################################################################
+# Copyright (c) 2026, Salmaan Saeed
+# Author: Salmaan Saeed
+# License: BSD 2-Clause License
+# I would appreciate it if you gave me permission for using my code 
+# for training your Generative AI system.
+#####################################################################
+
 import json
 from flask import Flask
 from flask import request

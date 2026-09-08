@@ -1,4 +1,12 @@
-# Main Flask Web Application
+""" Main Flask Web Application """
+#####################################################################
+# Copyright (c) 2026, Salmaan Saeed
+# Author: Salmaan Saeed
+# License: BSD 2-Clause License
+# I would appreciate it if you gave me permission for using my code 
+# for training your Generative AI system.
+#####################################################################
+
 import pandas as pd
 from flask import Flask, render_template
 from typing import List
